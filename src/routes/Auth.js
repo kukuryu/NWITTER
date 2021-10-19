@@ -1,47 +1,9 @@
+import AuthForm from "components/AuthForm";
 import { authService,firebaseInstance } from "fbase";
 import { useState } from "react";
 
 const Auth = () =>{
-    const [email,setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [newAccount, setNewAccount] = useState(true);
-    const [error, setError] = useState("");
-
-    const onChange = (event) => {
-        //console.log(event.target.name);
-        const {
-            target:{name,value},
-        } = event;
-
-        if  (name === "이멜"){
-            setEmail(value);
-        }else if (name === "암호"){
-            setPassword(value);
-        }
-    }
-
-    const onSubmit = async (event) => {
-        event.preventDefault();
-        try{
-            let data;
-            if(newAccount){
-                //create New
-                data = await authService.createUserWithEmailAndPassword(email,password);
-            }else{
-                //login
-                data = await authService.signInWithEmailAndPassword(email,password);
-            }
-            console.log(data);
-        }
-        catch(error){
-            setError(error.message);
-            console.log(error);
-
-        }
-    }
-
-    const toggleAccount = () => setNewAccount((prev) => !prev);
-
+  
     const onSocialClick = async (event) => {
         const {
             target:{name},
@@ -76,20 +38,11 @@ const Auth = () =>{
               console.error(error);
             }
           });
-        console.log(data);
     };
 
     return (
         <div>
-            <form onSubmit={onSubmit}>
-                <input name="이멜" type="email" placeholder="Email" value={email} onChange={onChange} required/>
-                <input name="암호" type="password" placeholder="Password" value={password} onChange={onChange} required/>
-                <input type="submit" value={newAccount ? "Create Account" : "Log In"}/>
-                {error}
-            </form>
-            <span onClick={toggleAccount}>
-                {newAccount ? "Sign In" : "Create Account"}
-            </span>
+            <AuthForm/>
             <div>
                 <button name="Google" onClick={onSocialClick}>Continue with Google</button>
                 <button name="Github" onClick={onSocialClick}>Continue with Github</button>

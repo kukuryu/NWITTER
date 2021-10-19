@@ -5,7 +5,6 @@ import {authService} from "../fbase";
 
 function App() {
   const [init,setInit] = useState(false);
-  const [isLoggedIn, setISLoggedIn] = useState(false);
   const [userObj, setUserObj] = useState(null);
 
   useEffect(() => {
@@ -19,7 +18,7 @@ function App() {
           updateProfile: (str) => user.updateProfile(str)
         });
       }else{
-        setISLoggedIn(false);
+        setUserObj(false);
       }
 
       setInit(true);
@@ -29,7 +28,6 @@ function App() {
   },[]);
 
   const refreshUser = () => {
-    //setUserObj(authService.currentUser);
     const user = authService.currentUser;
     setUserObj({
       uid: user.uid,

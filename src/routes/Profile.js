@@ -1,13 +1,15 @@
-// import Nweet from "components/Nweet";
+import Nweet from "components/Nweet";
 import { authService,dbService } from "fbase";
 import { useEffect,useState } from "react";
 
 const Profile = ({userObj,refreshUser}) => {
-    // const [nweets, setNweets] = useState([]);
+    const [nweets, setNweets] = useState([]);
     const [newDisplayName,setNewDisplayName] = useState(userObj.displayName);
 
-    const onLogOutClick = () => authService.signOut();
-
+    const onLogOutClick = () => {
+        authService.signOut();
+        // history.push("/");
+    }
     const onChange = (event) => {
         const {
             target:{value}
@@ -24,18 +26,18 @@ const Profile = ({userObj,refreshUser}) => {
 
     }
 
-    // const getMyNweets = async () => {
-    //     const nweets = await dbService.collection("nweets")
-    //     .where("creatorId","==",userObj.uid)
-    //     .orderBy("createdAt","asc")
-    //     .get();
+    const getMyNweets = async () => {
+        const nweets = await dbService.collection("nweets")
+        .where("creatorId","==",userObj.uid)
+        .orderBy("createdAt","asc")
+        .get();
         
-    //     setNweets(nweets.docs.map((doc) => doc.data()));
-    // }
+        setNweets(nweets.docs.map((doc) => doc.data()));
+    }
 
-    // useEffect(() => {
-    //     getMyNweets();
-    // },[]);
+    useEffect(() => {
+        getMyNweets();
+    },[]);
     return (
         <>
             <form onSubmit={onSubmit}>
@@ -43,12 +45,12 @@ const Profile = ({userObj,refreshUser}) => {
                 <input type="submit" value="Update Profile"/>
             </form>
             <button onClick={onLogOutClick}>Log Out</button>
-        {/* {
-            nweets.map((nweet) => (
-                <Nweet key={nweet.creatorId} nweetObj={nweet} isOwner={nweet.creatorId === userObj.uid}></Nweet>
+        {
+            nweets.map((nweet,index) => (
+                <Nweet key={index} nweetObj={nweet} isOwner={nweet.creatorId === userObj.uid}></Nweet>
             )
             )
-        } */}
+        }
         </>
 
 
