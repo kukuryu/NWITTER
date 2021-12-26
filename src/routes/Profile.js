@@ -1,3 +1,4 @@
+import React from 'react';
 import Nweet from "components/Nweet";
 import { authService,dbService } from "fbase";
 import { useEffect,useState } from "react";
@@ -39,19 +40,15 @@ const Profile = ({userObj,refreshUser}) => {
         getMyNweets();
     },[]);
     return (
-        <>
-            <form onSubmit={onSubmit}>
-                <input type="text" onChange={onChange} placeholder="Display Name"/>
-                <input type="submit" value="Update Profile"/>
+        <div className="container">
+            <form onSubmit={onSubmit} className="profileForm">
+                <input type="text" onChange={onChange} placeholder="Display Name" autoFocus className="formInput"/>
+                <input type="submit" value="Update Profile" className="formBtn" style={{marginTop:10}}/>
             </form>
-            <button onClick={onLogOutClick}>Log Out</button>
-        {
-            nweets.map((nweet,index) => (
-                <Nweet key={index} nweetObj={nweet} isOwner={nweet.creatorId === userObj.uid}></Nweet>
-            )
-            )
-        }
-        </>
+            <span className="formBtn cancelBtn logOut" onClick={onLogOutClick}>
+                Log Out
+            </span>
+        </div>
 
 
     )

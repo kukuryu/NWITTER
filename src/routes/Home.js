@@ -1,3 +1,4 @@
+import React from 'react';
 import { dbService} from "fbase";
 import { useEffect, useState } from "react";
 import Nweet from "components/Nweet";
@@ -17,9 +18,9 @@ const Home = ({userObj}) => {
     },[]);
 
     return (
-        <>
+        <div className="container">
             <NweetFactory userObj={userObj}></NweetFactory>
-            <div>
+            <div style={{ marginTop: 30 }}>
                 {
                     nweets.map((nweet,index) => (
                         <Nweet key={index} nweetObj={nweet} isOwner={nweet.creatorId === userObj.uid}></Nweet>
@@ -27,7 +28,7 @@ const Home = ({userObj}) => {
                     )
                 }
             </div>
-        </>
+        </div>
     )
 }
 
